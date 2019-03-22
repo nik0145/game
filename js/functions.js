@@ -44,18 +44,7 @@ jQuery(function ($) {
         $('.block_2 .part li:eq(5)').addClass('active_span'); 
         $('.block_2 .part li:eq(8)').addClass('active_span');
 		
-        if($(".bottom_links").hasClass('rubottom')) {
-    		$('.rubottom .swiper-pagination-bullet:eq(0)').append("<span class='bottom_link_span'>главная</span>");
-    		$('.rubottom .swiper-pagination-bullet:eq(1)').append("<span class='bottom_link_span'>описание</span>");
-    		$('.rubottom .swiper-pagination-bullet:eq(2)').append("<span class='bottom_link_span'>правила</span>");
-    		$('.rubottom .swiper-pagination-bullet:eq(3)').append("<span class='bottom_link_span'>Игра</span>");
-        }
-        else if($(".bottom_links").hasClass("enbottom")) {
-            $('.enbottom .swiper-pagination-bullet:eq(0)').append("<span class='bottom_link_span' style='top: -49px; left: -55px;'>main</span>");
-            $('.enbottom .swiper-pagination-bullet:eq(1)').append("<span class='bottom_link_span'>companies</span>");
-            $('.enbottom .swiper-pagination-bullet:eq(2)').append("<span class='bottom_link_span'>partners</span>");
-            $('.enbottom .swiper-pagination-bullet:eq(3)').append("<span class='bottom_link_span'>contacts</span>");
-        }
+
 		
         if($(window).width() > 768) $('audio').attr('autoplay', 'autoplay');
         if($(window).width() <= 768) {
@@ -240,13 +229,10 @@ jQuery(function ($) {
 		if($('#glitch_1r')) $('#glitch_1r').myDecrypt({your_text: "NETRUNNER"});
 	}, 1000); 
     setTimeout(function(){
-        if($('#glitch_1en')) $('#glitch_1en').myDecrypt({your_text: "CREATING"});
-        if($('#glitch_2en')) $('#glitch_2en').myDecrypt({your_text: "FUTURE "});      
     }, 1000);         
 
 	setTimeout(function(){
 		$('.glitch_span').addClass("glitch");
-		$('.glitch_1, .glitch_2').myGlitch({background: "url('/bitrix/templates/new/image/bckgrnd_1_for_function.jpg') no-repeat"});
 		}, 6000);
 
     /*==================== анимация стрелки =====================*/
