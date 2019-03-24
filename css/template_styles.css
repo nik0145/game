@@ -51,8 +51,8 @@ html, body {
 	z-index: 10;
 }
 
-.red-line {
-	background-color: #e62020;
+.blue-line {
+	background-color: #245fca;
     height: 4px;
 	flex: 1;
 	transition: all .3s;
@@ -119,12 +119,15 @@ html, body {
 	position: fixed;
 	top: 30px;
 	left: 30px;
-	height: 30px;
-	width: 35px;
+	height: 60px;
+	width: 50px;
 	z-index: 1000;
 }
-.on { background-../image: url("../image/SoundOn.svg"); }
-.off { background-../image: url("../image/SoundOff.svg"); }
+.on { 
+	left: 38px;
+	background-image: url("../image/svg/SoundOn.svg");
+	}
+.off { background-image: url("../image/svg/SoundOff.svg"); }
 
 .header {
     color: transparent;
@@ -164,7 +167,7 @@ html, body {
 
 
 .active_span::before {
-	border: 3px solid #e62020;
+	border: 3px solid #245fca;
     border-bottom: none;
 	display: block;
 	font: 24px Gothambold, Arial, sans-serif;
@@ -232,7 +235,7 @@ html, body {
 .block_link_hover::after {
 	content: '';
 	display: block;
-	border-top: 3px solid #e62020;
+	border-top: 3px solid #245fca;
 	position: absolute;
 	top: 50%;
     margin-top: -8px;
@@ -562,7 +565,7 @@ BLOCK_2
 .block_2 .header::after {
 	content: '';
 	display: block;
-	border-top: 3px solid #e62020;
+	border-top: 3px solid #245fca;
 	position: absolute;
 	right: -15px;
 	top: 50%;
@@ -595,7 +598,7 @@ BLOCK_2
 .block_2 .block_link::before {
 	content: '';
 	display: block;
-	border-top: 3px solid #e62020;
+	border-top: 3px solid #245fca;
 	left: 35px;
 	position: absolute;
 	top: 50%;
@@ -607,7 +610,7 @@ BLOCK_2
 .block_2_left_part .block_link_active::after {
 	content: '';
 	display: block;
-	border-top: 3px solid #e62020;
+	border-top: 3px solid #245fca;
 	position: absolute;
 	top: 50%;
     margin-top: -10px;
@@ -648,7 +651,7 @@ BLOCK_2
 	-moz-box-shadow: 1px 1px 5px #000;
 	-webkit-box-shadow: 1px 1px 5px #000;
 	display: block;
-	border-top: 3px solid #e62020;
+	border-top: 3px solid #245fca;
 	position: absolute;
 	top: 50%;
 	left: -25px;
@@ -670,7 +673,7 @@ BLOCK_2
 }
 
 .skew {
-	background: #d32021;
+	background: #245fca;
     height: 100%;
 	top: 0;
 	left: 22px;
@@ -751,7 +754,7 @@ BLOCK_3
 .block_3 .header::before {
 	content: '';
 	display: block;
-	border-top: 3px solid #e62020;
+	border-top: 3px solid #245fca;
 	left: -25px;
 	position: absolute;
 	top: 50%;
@@ -777,7 +780,7 @@ BLOCK_3
 	-moz-box-shadow: 1px 1px 5px #000;
 	-webkit-box-shadow: 1px 1px 5px #000;
 	display: block;
-	border-top: 3px solid #e62020;
+	border-top: 3px solid #245fca;
 	position: absolute;
 	right: -25px;
 	top: 50%;
@@ -810,7 +813,7 @@ BLOCK_3
 .block_3 .block_link::before {
 	content: '';
 	display: block;
-	border-top: 3px solid #e62020;
+	border-top: 3px solid #245fca;
 	position: absolute;
 	right: -15px;
 	top: 50%;
@@ -822,7 +825,7 @@ BLOCK_3
 .block_3 .block_link_active::after {
 	content: '';
 	display: block;
-	border-top: 3px solid #e62020;
+	border-top: 3px solid #245fca;
 	position: absolute;
 	top: 50%;
 	margin-top: -10px;
@@ -849,7 +852,7 @@ BLOCK_4
 .block_4 .header::before {
 	content: '';
 	display: block;
-	border-top: 3px solid #e62020;
+	border-top: 3px solid #245fca;
 	left: -25px;
 	position: absolute;
 	top: 50%;
@@ -1003,7 +1006,7 @@ a.bx-prev, a.bx-next {
 .central_header span::before {
 	content: '';
 	display: block;
-	border-top: 3px solid #e62020;
+	border-top: 3px solid #245fca;
 	left: -14px;
 	position: absolute;
 	top: 50%;
@@ -1018,7 +1021,7 @@ a.bx-prev, a.bx-next {
 .contact { margin: 0 2vw 0 3vw;}
 .contact_header {
 	font: 18px Gothammed, Arial, sans-serif;
-	color: #e62020;
+	color: #245fca;
 	padding: 0 0 12px 0;
 	text-transform: uppercase;
 }

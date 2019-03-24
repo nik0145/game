@@ -328,12 +328,12 @@ jQuery(function ($) {
         }
         if(count == 4) {
             $('.block_4').find('.header').css({'color':'#000', 'top':'0', 'opacity':'1'});
-            $('.right_red-line').css({'backgroundColor' : 'transparent'});
+            $('.right_blue-line').css({'backgroundColor' : 'transparent'});
              }
         else {
             
             $('.block_4').find('.header').css({'top':'', 'color':''});
-            $('.right_red-line').css({'backgroundColor' : ''});
+            $('.right_blue-line').css({'backgroundColor' : ''});
         }
       }
      });
