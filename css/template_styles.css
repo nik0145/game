@@ -1,8 +1,8 @@
 
 @font-face { font-family: Gothambold; src: url(fonts/GothaProBol.otf);}
-@font-face { font-family: Gothamlt; src: url(fonts/GothaProLig.otf);}
-@font-face { font-family: Gothammed; src: url(fonts/GothaProMed.otf);}
-@font-face { font-family: Logo; src: url(fonts/narvog_demo.ttf);}
+@font-face { font-family: Gothamlt; src: url(../fonts/ljk.otf);}
+@font-face { font-family: Gothammed; src: url(../fonts/hacked.ttf);}
+@font-face { font-family: Logo; src: url(../fonts/hacked.ttf);}
 
 html, body {
         position: relative;
@@ -170,7 +170,6 @@ html, body {
 	border: 3px solid #245fca;
     border-bottom: none;
 	display: block;
-	font: 24px Gothambold, Arial, sans-serif;
 	padding: 8px;
     position: absolute;
     top: -15px;
@@ -272,8 +271,6 @@ html, body {
 	font: 12px Gothamlt, Arial, sans-serif;
 	text-transform: uppercase;
 }
-.rus-eng .language:hover { font-family: Gothambold, Arial, sans-serif; font-weight: bold;}
-.active { font-family: Gothambold, Arial, sans-serif;}
 .language.active { font-weight: bold;}
 .clear { clear: both;}
 
@@ -322,7 +319,7 @@ BLOCK_1
     z-index: 10;
 }
 .header_glitch {
-    color: #000;
+    color: #235fd0;
     display: inline-block;
     font: 90px Logo;
     letter-spacing: .15em;
@@ -413,7 +410,7 @@ BLOCK_1
   left: 3px;
   text-shadow: 0 0 3px rgba(148, 19, 19, 0.41);
   top: 0;
-  color: #000;
+  color: #235fd0;
   background: transparent;
   overflow: hidden;
   clip: rect(0, 900px, 0, 0);
@@ -492,7 +489,7 @@ BLOCK_1
   left: -2px;
   text-shadow: 0 0 3px rgba(0, 0, 255, 0.6);
   top: 0;
-  color: #000;
+  color: #235fd0;
   background: transparent;
   overflow: hidden;
   clip: rect(0, 900px, 0, 0);
@@ -729,7 +726,7 @@ filter: progid:DX../ImageTransform.Microsoft.gradient( startColorstr='#cc000000'
 }
 .ps {
 	color: #111;
-	font-family: Gothambold, Arial, sans-serif;
+	font-family:  Arial, sans-serif;
 }
 
 /*================*/
