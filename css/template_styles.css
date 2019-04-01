@@ -842,7 +842,7 @@ BLOCK_4
 .block_4 { background: url('../image/Wallground.jpg') no-repeat;}
 .block_4 .header { 
     left: 35px;
-    margin: 7% 0 2% 0;
+    margin: 2% 0 2% 0;
     top: -50px;
     transition: all 2s;
 }

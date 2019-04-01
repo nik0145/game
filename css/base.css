@@ -37,9 +37,10 @@ ol li {
     width: 50vw;
 }
 .screen-game {
-    width: 100vw;
-    height: 100vh;
-    background: url(../img/bg-game.png) repeat-x;
+    width: 80vw;
+    height: 80vh;
+     box-shadow: 0 14px 38px rgba(0,0,0,0.6), 0 5px 10px rgba(0,0,0,0.32);
+    background: url(../image/bg-game.png) repeat-x;
     background-size: cover;
 }
 .panel {
@@ -100,16 +101,20 @@ button {
 .game-panel {
     position: absolute;
     color: #fff;
+
 }
 .game-panel-skills {
     right: 30px;
     bottom: 30px;
 }
 .game-panel-user {
+    margin-top: 20px;
+    margin-left: 10px;
     left: 30px;
     top: 30px;
 }
 .game-panel-scores {
+    margin-bottom: 20px;
     bottom: 30px;
     left: 30px;
 }
@@ -149,4 +154,16 @@ button {
 }
 .show {
     z-index: 300;
+}
+#player{
+    padding-top: 150px;
+    margin:  auto 0px;
+    display: block;
+}
+#enemy{
+    margin: -500px auto 0px;
+    display: block;
+}
+.space{
+    height: 253px;
 }

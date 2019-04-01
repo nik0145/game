@@ -26,7 +26,7 @@ $(document).ready(function(){
 	var map;
 	var ctxMap;
 
-	var gameWidth = $(document).width();
+	var gameWidth = 1535;
 	var gameHeight = 500;
 
 	var player;
@@ -78,7 +78,7 @@ $(document).ready(function(){
 			var mas = new Array();
 			for(var i = 1;i<=count;i++){
 				mas[i] = new Image;
-				mas[i].src = '../character animation/heroes/netrunner/'+name+'/'+i+'.png';
+				mas[i].src = './heroes/netrunner/'+name+'/'+i+'.png';
 			}
 			return mas;
 	}
@@ -117,7 +117,8 @@ $(document).ready(function(){
 			var mas = new Array();
 			for(var i = 1;i<=count;i++){
 				mas[i] = new Image;
-				mas[i].src = '../character animation/heroes/enemies/'+who+'/'+name+'/'+i+'.png';
+				mas[i].src = './heroes/enemies/'+who+'/'+name+'/'+i+'.png';
+				console.log(mas[i].src);
 			}
 			return mas;
 	}
