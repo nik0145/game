@@ -118,7 +118,6 @@ $(document).ready(function(){
 			for(var i = 1;i<=count;i++){
 				mas[i] = new Image;
 				mas[i].src = './heroes/enemies/'+who+'/'+name+'/'+i+'.png';
-				console.log(mas[i].src);
 			}
 			return mas;
 	}
