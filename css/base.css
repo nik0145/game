@@ -155,15 +155,15 @@ button {
 .show {
     z-index: 300;
 }
-#player{
-    padding-top: 150px;
+#playerCan{
     margin:  auto 0px;
     display: block;
 }
+
 #enemy{
     margin: -500px auto 0px;
     display: block;
 }
 .space{
-    height: 253px;
+    height: 7vh;
 }

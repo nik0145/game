@@ -26,7 +26,9 @@ $(document).ready(function(){
 	var map;
 	var ctxMap;
 
-	var gameWidth = 1535;
+
+	Gwidth = document.getElementById('screenGame');
+	var gameWidth = Gwidth.clientWidth;
 	var gameHeight = 500;
 
 	var player;
@@ -45,15 +47,26 @@ $(document).ready(function(){
 	var _sec = _min = 0;
 	var spawnInterval;
 	var spawnTime = 4000;
-	var spawnAmount = 1;
+	var spawnAmount = 2;
+	var nameEnemy = ["cyborg","flyingshit"];
 
 	var idle =          actionKnight('idle',6);
 	var walk =          actionKnight('run',13);
 	var death =         actionKnight('death',19);
-	var attack =        actionKnight('attak1',25)
-	var run =           actionEnemy('cyborg','run',11);
-	var greenchAttack = actionEnemy('cyborg','attak',6);
-	var greenchDie =    actionEnemy('cyborg','die',4);
+	var attack =        actionKnight('attak1',25);
+	var run = {};
+	var enemyAttack = {};
+	var enemyDie = {};
+	run["cyborg"] =         actionEnemy("cyborg",'run',11);
+	enemyAttack["cyborg"] = actionEnemy("cyborg",'attak',6);
+	enemyDie["cyborg"] =    actionEnemy("cyborg",'die',4);
+	run["flyingshit"] =         actionEnemy("flyingshit",'run',11);
+	enemyAttack["flyingshit"] = actionEnemy("flyingshit",'attak',6);
+	enemyDie["flyingshit"] =    actionEnemy("flyingshit",'die',4);
+/*		var run =         actionEnemy("flyingshit",'run',11);
+	var enemyAttack = actionEnemy("flyingshit",'attak',6);
+	var enemyDie =    actionEnemy("flyingshit",'die',4);*/
+
 
 
 	function init() {
@@ -207,6 +220,7 @@ $(document).ready(function(){
 		this.srcY = 280;
 		this.drawX = 0;
 		this.drawX = 0;
+		this.type = "";
 		this.width = 220; //размеры
 		this.height = 220;
 		this.speed = 4;//скорость
@@ -216,13 +230,28 @@ $(document).ready(function(){
 	}
 	function spawnEnemy(count){
 		for (var i = 0; i < count; i++) {
+			var randEnemy = nameEnemy[Math.floor(Math.random() * nameEnemy.length)];
+/*			console.log(i);
+			if(i==1){
+				randEnemy = "flyingshit";
+			}else{
+				randEnemy = "cyborg";
+			}
+			var randEnemy = nameEnemy[Math.floor(Math.random() * nameEnemy.length)];
+			console.log(randEnemy);
+			run =         actionEnemy(randEnemy,'run',11);
+			enemyAttack = actionEnemy(randEnemy,'attak',6);
+			enemyDie =    actionEnemy(randEnemy,'die',4);*/
 			enemy[i] = new Enemy();
+			enemy[i].type = randEnemy;
+			console.log(enemy[i]);
 		}
 	}
 	function draw() {
 		player.draw();
 		clearCtxE();
 		for (var i = 0; i < enemy.length; i++) {
+
 			enemy[i].draw();
 		}
 	}
@@ -342,11 +371,13 @@ $(document).ready(function(){
 	Player.prototype.update = function () {
 
 		for (var i = 0; i < enemy.length; i++) {
+			console.log(enemy);
 			//console.log('enemy',enemy[i].srcX + enemy[i].width );
 			//console.log('night', this.srcX + this.width);
 			if((enemy[i].srcX + enemy[i].width>= + this.srcX + this.width) && this.attack){
 				enemy[i].death = true;
 				enemy[i].run = false;
+				enemy[i].attack = false;
 			}
 			//50 чтобы враг заходил за меч
 /*				if(enemy[i].srcX + enemy[i].width-80>= gameWidth - this.srcX - this.width){
@@ -360,14 +391,15 @@ $(document).ready(function(){
 
 	}
 	Enemy.prototype.draw = function () {
+	
 		//ctxE.setTransform(-1,0,0,1,enemyId.width,0);
 		if(this.run && !this.death){
 			y = y<11 ? y + 1 : 1;
-			ctxE.drawImage(run[y],this.srcX,this.srcY,this.width,this.height);
+			ctxE.drawImage(run[this.type][y],this.srcX,this.srcY,this.width,this.height);
 		}
 		if(this.death){
 			y = y<4 ? y + 1 : 1;
-			ctxE.drawImage(greenchDie[y],this.srcX,this.srcY,this.width,this.height);
+			ctxE.drawImage(enemyDie[this.type][y],this.srcX,this.srcY,this.width,this.height);
 			if(y==4) {
 				this.destroy();
 				murder++;
@@ -375,7 +407,7 @@ $(document).ready(function(){
 		}
 		if(this.attack){
 			y = y<6 ? y + 1 : 1;
-			ctxE.drawImage(greenchAttack[y],this.srcX,this.srcY,this.width,this.height);
+			ctxE.drawImage(enemyAttack[this.type][y],this.srcX,this.srcY,this.width,this.height);
 			if(y >= 6){
 				health = health<1 ? 0: health-2;
 			}

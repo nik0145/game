@@ -1,9 +1,19 @@
 jQuery(function ($) {
 
     $('.audio').on("click", function(event) {
+/*      var slaid = swiper.activeIndex+1;
+      if(slaid == 4) {
+
+        $('.my-hidden-player').get(0).src = linkGame;
+      }else{
+        if($('.my-hidden-player').get(0).src != linkMenu){
+            $('.my-hidden-player').get(0).src = linkMenu;
+        }
+      }*/
         if ($(this).hasClass('on')) {
             $(this).removeClass('on');
             $(this).addClass('off');
+            
             $('.my-hidden-player').get(0).pause();
         } else {
             $(this).removeClass('off');
@@ -48,8 +58,6 @@ jQuery(function ($) {
         $('.block_2 .part li:eq(8)').addClass('active_span');
 
 
-
-        if($(window).width() > 768) $('audio').attr('autoplay', 'autoplay');
         if($(window).width() <= 768) {
             $('.block_2 .part li:eq(8), .block_2 .part li:eq(5)').css('margin-top', '20px');
             $('.bottom_links a:first').addClass('active_bottom_link');
@@ -316,6 +324,7 @@ jQuery(function ($) {
 }
 if(count == 3) {
     $('.block_3 .hidden_block').fadeIn(1500);  
+
     if($(window).width() <= 1920 && $(window).width() > 768) $('.block_3 .header').css({'color':'#000', 'left':'0', 'opacity':'1'});
     else $('.block_3 .header').css({'color':'#000', 'left':'45px', 'opacity':'1'});   
     $('.block_3_left').css({ 'top': '0',  'opacity': '1' });
@@ -330,11 +339,27 @@ else {
 if(count == 4) {
     $('.block_4').find('.header').css({'color':'#000', 'top':'0', 'opacity':'1'});
     $('.right_blue-line').css({'backgroundColor' : 'transparent'});
-    $('.my-hidden-player').get(0).src = linkGame;
+
+      $('.my-hidden-player').get(0).src = linkGame;
+      if ($('.audio').hasClass('off')) {
+        $('.my-hidden-player').get(0).pause();
+      }else{
+        $('.my-hidden-player').get(0).play();
+      }
+   
+    
 }
 else {
+
+  console.log($('.my-hidden-player').prop("paused"));
     if($('.my-hidden-player').get(0).src != linkMenu){
         $('.my-hidden-player').get(0).src = linkMenu;
+          if ($('.audio').hasClass('off')) {
+            $('.my-hidden-player').get(0).pause();
+          }else{
+            $('.my-hidden-player').get(0).play();
+          }
+
     }
     $('.block_4').find('.header').css({'top':'', 'color':''});
     $('.right_blue-line').css({'backgroundColor' : ''});
