@@ -44,10 +44,12 @@ ol li {
     background-size: cover;
 }
 .panel {
-    width: 100%;
+    width: 70%;
     padding: 8vh 5vw;
-    height: 100%;
+    height: 70%;
     background: #fff;
+    border-radius: 4px;
+    margin: 50px auto;
     box-shadow: 0 0 10px rgba(0,0,0,.1);
 }
 table {

@@ -38,8 +38,10 @@ $(document).ready(function(){
 	var health = $('.panel-xp .score-value span').text();
 	var mana = 100/*$('.panel-mp .score-value span').text()*/;
 	var murder = 0;
+	var looGame = 0;
 	var x;
 	var y;
+	var a;
 	var backgroundPos = 0;
 	var changeBackgroundPos = 6;
 
@@ -47,7 +49,7 @@ $(document).ready(function(){
 	var _sec = _min = 0;
 	var spawnInterval;
 	var spawnTime = 4000;
-	var spawnAmount = 2;
+	var spawnAmount = 1;
 	var nameEnemy = ["cyborg","flyingshit"];
 
 	var idle =          actionKnight('idle',6);
@@ -61,11 +63,9 @@ $(document).ready(function(){
 	enemyAttack["cyborg"] = actionEnemy("cyborg",'attak',6);
 	enemyDie["cyborg"] =    actionEnemy("cyborg",'die',4);
 	run["flyingshit"] =         actionEnemy("flyingshit",'run',11);
-	enemyAttack["flyingshit"] = actionEnemy("flyingshit",'attak',6);
-	enemyDie["flyingshit"] =    actionEnemy("flyingshit",'die',4);
-/*		var run =         actionEnemy("flyingshit",'run',11);
-	var enemyAttack = actionEnemy("flyingshit",'attak',6);
-	var enemyDie =    actionEnemy("flyingshit",'die',4);*/
+	enemyAttack["flyingshit"] = actionEnemy("flyingshit",'attak',25);
+	enemyDie["flyingshit"] =    actionEnemy("flyingshit",'die',13);
+
 
 
 
@@ -96,10 +96,14 @@ $(document).ready(function(){
 			return mas;
 	}
 	function startCreatingEnemy(){
+		looGame++;
 		stopCreatingEnemy();
 		spawnInterval = setInterval(function(){
 			if(enemy.length == 0){
 				spawnEnemy(spawnAmount);
+				if(looGame % 2){
+					spawnAmount = spawnAmount + 1;
+				}
 			}
 		},spawnTime);
 	}
@@ -123,7 +127,7 @@ $(document).ready(function(){
 			player.death = true;
 
 		}else if(health<100){
-			health = +health + 0.04;
+			health = +health + 0.06;
 		}
 	}
 	function actionEnemy(who,name,count) {
@@ -168,7 +172,14 @@ $(document).ready(function(){
 	function stopLoop() {
 		username = $('.user-info').text();
 		isPlaying = false;
-		$.ajax({
+		tr = '<tr>';
+		tr +="<td align='center'>" + UserName + "</td>";
+		tr +="<td align='center'>" + murder + "</td>";
+		tr +="<td align='center'>" + $('.timer').text() + "</td>";
+		tr += '</tr>';
+		$('#tablea tr:last').after(tr);
+		$('.screen-ranking').show("slaw");
+/*		$.ajax({
 			type: "POST",
 			url:'../php/register.php',
 			data:'username='+username+'&score='+murder+'&time='+_sec,
@@ -197,7 +208,7 @@ $(document).ready(function(){
 			error:function(data){
 				console.log('error');
 			},
-		});
+		});*/
 	}
 	function Player() {
 		this.srcX = 0;//отступы
@@ -210,20 +221,22 @@ $(document).ready(function(){
 		this.isLeft = false;
 		this.idle = true;
 		this.walk = false;
+		this.attackFirts = false;
 		this.death = false;
 		this.attack = false;
 		this.heIsAttac = false;
 		this.speed = 8;//скорость
 	}
 	function Enemy() {
-		this.srcX = 250+gameWidth+Math.floor(-(Math.random()*300)-250);//отступы
+		this.srcX = 250+gameWidth;//отступы
 		this.srcY = 280;
 		this.drawX = 0;
 		this.drawX = 0;
 		this.type = "";
+		this.kill = false;
 		this.width = 220; //размеры
 		this.height = 220;
-		this.speed = 4;//скорость
+		this.speed = 2;//скорость
 		this.run = true;
 		this.attack = false;
 		this.death = false;
@@ -231,34 +244,30 @@ $(document).ready(function(){
 	function spawnEnemy(count){
 		for (var i = 0; i < count; i++) {
 			var randEnemy = nameEnemy[Math.floor(Math.random() * nameEnemy.length)];
-/*			console.log(i);
-			if(i==1){
-				randEnemy = "flyingshit";
-			}else{
-				randEnemy = "cyborg";
-			}
-			var randEnemy = nameEnemy[Math.floor(Math.random() * nameEnemy.length)];
-			console.log(randEnemy);
-			run =         actionEnemy(randEnemy,'run',11);
-			enemyAttack = actionEnemy(randEnemy,'attak',6);
-			enemyDie =    actionEnemy(randEnemy,'die',4);*/
 			enemy[i] = new Enemy();
+			if(i>0){
+				enemy[i].srcX =enemy[i-1].srcX + 70 + getRandom(20,100);
+			}
 			enemy[i].type = randEnemy;
-			console.log(enemy[i]);
 		}
 	}
 	function draw() {
 		player.draw();
 		clearCtxE();
 		for (var i = 0; i < enemy.length; i++) {
-
 			enemy[i].draw();
 		}
 	}
 	function update() {
 		updateStats();
 		for (var i = 0; i < enemy.length; i++) {
-			enemy[i].update();
+			if(!enemy[i].kill){
+				enemy[i].update();
+			}else{
+				enemy[i].run = false;
+				enemy[i].attack = false;
+			}
+			
 
 		}
 		player.update();
@@ -267,6 +276,9 @@ $(document).ready(function(){
 				case 68:
 				player.idle = true;
 				player.walk = player.isLeft = player.isRight = false;
+				break;
+				case 53:
+				isPlaying = false;
 				break;
 				case 65:
 				player.idle = true;
@@ -286,7 +298,6 @@ $(document).ready(function(){
 					case K_L:
 						$('.screen-game').css('background-position', backgroundPos+'px');
 						backgroundPos+=changeBackgroundPos;
-						console.log('1111111111111');
 						player.isLeft = true;
 						player.idle = false;
 						player.goLeft();
@@ -319,14 +330,12 @@ $(document).ready(function(){
 		}
 		this.idle = false;
 	}
-
 	Player.prototype.attack1 = function () {
 		
 		if(mana>=15) {
 			this.attack = true;
+			this.attackFirts = true;
 			this.idle = this.walk = false;
-		}else{
-			//this.idle = true;
 		}
 	}
 	Player.prototype.goLeft = function () {
@@ -360,6 +369,7 @@ $(document).ready(function(){
 			x = x<25 ? x + 1 : 1;
 			//this.idle = false;
 			ctxP.drawImage(attack[x],this.srcX,this.srcY,this.width,this.height);
+	
 			if(x>24) {
 				this.heIsAttac = false;
 				mana = mana-15;
@@ -369,93 +379,86 @@ $(document).ready(function(){
 		}
 	}
 	Player.prototype.update = function () {
-
-		for (var i = 0; i < enemy.length; i++) {
-			console.log(enemy);
-			//console.log('enemy',enemy[i].srcX + enemy[i].width );
-			//console.log('night', this.srcX + this.width);
-			if((enemy[i].srcX + enemy[i].width>= + this.srcX + this.width) && this.attack){
-				enemy[i].death = true;
-				enemy[i].run = false;
-				enemy[i].attack = false;
-			}
-			//50 чтобы враг заходил за меч
-/*				if(enemy[i].srcX + enemy[i].width-80>= gameWidth - this.srcX - this.width){
-				console.log('enemy',enemy[i].srcX + enemy[i].width );
-				console.log('night',gameWidth - this.srcX - this.width);
-				isPlaying = false;
-				this.walk = this.idle = false;
-				this.death = true;
-			}*/
+			if(enemy[0] && this.attackFirts){
+				if((enemy[0].srcX + enemy[0].width>= + this.srcX + this.width) && this.attack && this.attackFirts){
+					enemy[0].run = false;
+					enemy[0].death = true;
+					enemy[0].attack = false;
+					this.attackFirts = false;
+				}
 		}
-
 	}
 	Enemy.prototype.draw = function () {
-	
 		//ctxE.setTransform(-1,0,0,1,enemyId.width,0);
-		if(this.run && !this.death){
+		if(this.run ){
 			y = y<11 ? y + 1 : 1;
 			ctxE.drawImage(run[this.type][y],this.srcX,this.srcY,this.width,this.height);
 		}
 		if(this.death){
-			y = y<4 ? y + 1 : 1;
-			ctxE.drawImage(enemyDie[this.type][y],this.srcX,this.srcY,this.width,this.height);
-			if(y==4) {
-				this.destroy();
-				murder++;
+			if(this.type =="flyingshit"){
+				y = y<12 ? y + 1 : 1;
+				ctxE.drawImage(enemyDie[this.type][y],this.srcX,this.srcY,this.width,this.height);
+				if(y==12) {
+					this.destroy();
+					murder++;
+				}
+			}else if(this.type =="cyborg"){
+				a = a<3 ? a + 1 : 1;
+				ctxE.drawImage(enemyDie[this.type][a],this.srcX,this.srcY,this.width,this.height);
+				if(a==3) {
+					this.destroy();
+					murder++;
+				}
 			}
+
 		}
 		if(this.attack){
-			y = y<6 ? y + 1 : 1;
-			ctxE.drawImage(enemyAttack[this.type][y],this.srcX,this.srcY,this.width,this.height);
-			if(y >= 6){
-				health = health<1 ? 0: health-2;
+			if(this.type =="flyingshit"){
+				y = y<24 ? y + 1 : 1;
+				ctxE.drawImage(enemyAttack[this.type][y],this.srcX,this.srcY,this.width,this.height);
+				if(y >= 24){
+					health = health<1 ? 0: health-2;
+				}
+			}else if(this.type =="cyborg"){
+				a = a<6 ? a + 1 : 1;
+				ctxE.drawImage(enemyAttack[this.type][a],this.srcX,this.srcY,this.width,this.height);
+				if(a >= 6){
+					health = health<1 ? 0: health-2;
+				}
 			}
 		}
 	}
 	Enemy.prototype.update = function () {
-		if(!this.attack){
-			this.srcX -=this.speed;
+		for (var i = 0; i < enemy.length; i++) {
+		if(!enemy[i].attack){
+			if(player.walk && player.isLeft){
+				enemy[i].srcX -=(enemy[i].speed/2)/2;
+			}else{
+				enemy[i].srcX -=(enemy[i].speed+enemy[i].speed)/spawnAmount;
+			}
+		}else if (player.walk && player.isLeft){
+			enemy[i].srcX +=(enemy[i].speed+enemy[i].speed);
 		}
-		//console.log('enemy'+this.srcX);
-		//console.log('enemy'+player.srcX);
-		if(player.srcX> this.srcX-100){
-			//console.log('good');
-			this.run = false;
-			this.attack = true;
+		if(player.srcX> enemy[i].srcX-100){
+			enemy[i].run = false;
+			enemy[i].attack = true;
 		}else{
-			this.run = true;
-			this.attack = false;
+			enemy[i].run = true;
+			enemy[i].attack = false;
 		}
-		/*
-			if(this.srcX + this.width - 80 >= gameWidth - player.srcX - player.width){
-				this.run = false;
-				this.attack = true;
-
-			}
-			else if((this.srcX + this.width - 30 >= gameWidth - player.srcX - player.width) && player.attack){
-				this.run = false;
-				this.attack = false;
-			}
-			else{
-				this.srcX -=this.speed;
-			}
-
-			if(this.srcX+this.width>1){
-			this.destroy();
-		}
-		*/
+	}
 	}
 	Enemy.prototype.destroy = function(){
 		enemy.splice(enemy.indexOf(this),1);
-	}
-	function drawBg() {
-		//ctxMap.drawImage(background,0,0,2000,1000,0,0,gameWidth,gameHeight);
 	}
 	function clearCtxP() {
 		ctxP.clearRect(0,0,gameWidth,gameHeight);
 	}
 	function clearCtxE() {	
 		ctxE.clearRect(0,0,gameWidth,gameHeight);
+	}
+	function getRandom(min, max)
+	{
+	  return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
 	})
