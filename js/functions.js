@@ -350,8 +350,6 @@ if(count == 4) {
     
 }
 else {
-
-  console.log($('.my-hidden-player').prop("paused"));
     if($('.my-hidden-player').get(0).src != linkMenu){
         $('.my-hidden-player').get(0).src = linkMenu;
           if ($('.audio').hasClass('off')) {
