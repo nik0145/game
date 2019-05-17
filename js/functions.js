@@ -2,7 +2,7 @@ jQuery(function ($) {
 
     $('.audio').on("click", function(event) {
 /*      var slaid = swiper.activeIndex+1;
-      if(slaid == 4) {
+      if(slaid == 3) {
 
         $('.my-hidden-player').get(0).src = linkGame;
       }else{
@@ -32,6 +32,7 @@ jQuery(function ($) {
     $('.my-hidden-player-game').get(0).pause();
     var linkMenu = $('.my-hidden-player').get(0).src;
     var linkGame = $('.my-hidden-player-game').get(0).src;
+    var linkGameGame = $('.my-hidden-player-game1').get(0).src;
     $(window).load(function() {
         var gl_h = [];
         var gl_w = [];
@@ -300,6 +301,11 @@ jQuery(function ($) {
        glob_count++;
        if(glob_count > 0) $('.finger').css('display', 'none');
        if(count == 2) {
+         // if ($('.audio').hasClass('on')) {
+          $('.audio').removeClass('off');
+        $('.audio').addClass('on');
+         $('.my-hidden-player').get(0).play();
+//}
         if($(window).width() <= 768) {
           if($('.block_2_right').css('display') =='none' && glob_count != 2) $('.block_2 .hidden_block').fadeIn(1500);
       }
@@ -322,7 +328,22 @@ jQuery(function ($) {
         $('.block_2_right').css({'left':'', 'opacity':''});
     }
 }
+if(count == 1) {
+   $('.audio').css({'display':'none'});
+
+}else{
+   $('.audio').css({'display':'block'});
+}
 if(count == 3) {
+ // if ($('.audio').hasClass('on')) {
+      $('.my-hidden-player').get(0).src = linkGame;
+      if ($('.audio').hasClass('off')) {
+        $('.my-hidden-player').get(0).pause();
+      }else{
+        $('.my-hidden-player').get(0).play();
+      }
+  //  }
+   
     $('.block_3 .hidden_block').fadeIn(1500);  
 
     if($(window).width() <= 1920 && $(window).width() > 768) $('.block_3 .header').css({'color':'#000', 'left':'0', 'opacity':'1'});
@@ -330,6 +351,13 @@ if(count == 3) {
     $('.block_3_left').css({ 'top': '0',  'opacity': '1' });
 }
 else {
+      if($('.my-hidden-player').get(0).src != linkMenu){
+        $('.my-hidden-player').get(0).src = linkMenu;
+          if ($('.audio').hasClass('off')) {
+            $('.my-hidden-player').get(0).pause();
+          }else{
+            $('.my-hidden-player').get(0).play();
+          }
     $('.block_3').find('.header').css({'left':'', 'color':'', 'opacity':''});  
     if($(window).width() > 768) { 
         $('.block_3').find('.hidden_block').css({'display' : ''});
@@ -337,26 +365,20 @@ else {
     }
 }
 if(count == 4) {
-    $('.block_4').find('.header').css({'color':'#000', 'top':'0', 'opacity':'1'});
-    $('.right_blue-line').css({'backgroundColor' : 'transparent'});
 
-      $('.my-hidden-player').get(0).src = linkGame;
+      $('.my-hidden-player').get(0).src = linkGameGame;
       if ($('.audio').hasClass('off')) {
         $('.my-hidden-player').get(0).pause();
       }else{
         $('.my-hidden-player').get(0).play();
       }
-   
+    $('.block_4').find('.header').css({'color':'#000', 'top':'0', 'opacity':'1'});
+    $('.right_blue-line').css({'backgroundColor' : 'transparent'});
+
     
 }
 else {
-    if($('.my-hidden-player').get(0).src != linkMenu){
-        $('.my-hidden-player').get(0).src = linkMenu;
-          if ($('.audio').hasClass('off')) {
-            $('.my-hidden-player').get(0).pause();
-          }else{
-            $('.my-hidden-player').get(0).play();
-          }
+
 
     }
     $('.block_4').find('.header').css({'top':'', 'color':''});

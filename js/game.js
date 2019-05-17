@@ -1,12 +1,15 @@
+//если страница загружена
 $(document).ready(function(){
-		
+		//кнопка перезагрузки страницы(начать сначала)
 		$('button').click(function(){
 			location.reload();
 		});
+		//скрываем менюшку, которая выпадает при смерти
 		$('.screen-ranking').hide(4000);
 		$('form').submit(function(e){
 			e.preventDefault();
 		});
+		// если кнопка нажата, и имя игрока больше 3 символов то запускаем функцию init()
 		$('#sbmtName').click(function(){
 			UserName = $('#sbmtInpt').val();
 			if(UserName.length >= 3){
@@ -14,11 +17,8 @@ $(document).ready(function(){
 				$('.screen-start').hide(300);
 				init();
 			}
-			else{
-				// тут изменяем placeholder на чтото
-			}
 		});
-
+	//кнопки лево право и атаки
 	const K_L = 97;
 	const K_R = 100;
 	const K_A = 49;
@@ -34,6 +34,7 @@ $(document).ready(function(){
 	var player;
 	var enemy = [];
 
+	// переменные игрока
 	var isPlaying;
 	var health = $('.panel-xp .score-value span').text();
 	var mana = 100/*$('.panel-mp .score-value span').text()*/;
@@ -45,20 +46,25 @@ $(document).ready(function(){
 	var backgroundPos = 0;
 	var changeBackgroundPos = 6;
 
+	//таймер
 	var Timer;
 	var _sec = _min = 0;
 	var spawnInterval;
-	var spawnTime = 4000;
+	var spawnTime = 100;
 	var spawnAmount = 1;
+
+	//количество врагов
 	var nameEnemy = ["cyborg","flyingshit"];
 
-	var idle =          actionKnight('idle',6);
-	var walk =          actionKnight('run',13);
-	var death =         actionKnight('death',19);
-	var attack =        actionKnight('attak1',25);
+	//получаем картинки игрока
+	var idle =          actionNetrunner('idle',6);
+	var walk =          actionNetrunner('run',13);
+	var death =         actionNetrunner('death',19);
+	var attack =        actionNetrunner('attak1',25);
 	var run = {};
 	var enemyAttack = {};
 	var enemyDie = {};
+	//получаем картинки врагов
 	run["cyborg"] =         actionEnemy("cyborg",'run',11);
 	enemyAttack["cyborg"] = actionEnemy("cyborg",'attak',6);
 	enemyDie["cyborg"] =    actionEnemy("cyborg",'die',4);
@@ -68,8 +74,12 @@ $(document).ready(function(){
 
 
 
-
+	function isInteger(num) {
+	  return (num ^ 0) === num;
+	}
+	//функция инициализации игры
 	function init() {
+		//получаем холст на котором будет рисоваться враги и игрок, создаем объект Игрок, запускаем цикл игры(startLoop)
 		playerId = document.getElementById('playerCan');
 		ctxP = playerId.getContext("2d");
 
@@ -83,11 +93,13 @@ $(document).ready(function(){
 		player = new Player();
 		startLoop();
 	}
+	//прибавка нулей для картинок
 	function zeroPlus(str,len) {
 		str = str.toString();
 		return str.length < len ? zeroPlus("0" + str,len) : str;
 	}
-	function actionKnight(name,count) {
+	//функиця получения картинок для нетруннера
+	function actionNetrunner(name,count) {
 			var mas = new Array();
 			for(var i = 1;i<=count;i++){
 				mas[i] = new Image;
@@ -95,6 +107,7 @@ $(document).ready(function(){
 			}
 			return mas;
 	}
+	// функция создания врагов(берет время спавна и количества врагов)
 	function startCreatingEnemy(){
 		looGame++;
 		stopCreatingEnemy();
@@ -110,6 +123,7 @@ $(document).ready(function(){
 	function stopCreatingEnemy(){
 		clearInterval(spawnInterval);
 	}
+	// изменения статистики(убийства, здоровья и т.д.)
 	function updateStats(){
 		$('.kills').text("Killed: "+murder);
 		health = +health;
@@ -130,6 +144,7 @@ $(document).ready(function(){
 			health = +health + 0.06;
 		}
 	}
+	// функция получения картинок врага
 	function actionEnemy(who,name,count) {
 			var mas = new Array();
 			for(var i = 1;i<=count;i++){
@@ -138,8 +153,10 @@ $(document).ready(function(){
 			}
 			return mas;
 	}
+	//начало цикла игры
 	function startLoop() {
 		isPlaying = true;
+		//уставлинваем таймер в игре
 		Timer = setInterval(function(){
 			if(_sec == 59){
 				_min++;
@@ -150,13 +167,18 @@ $(document).ready(function(){
 			}
 			
 		},1000);
+		//запускаем цикл
 		loop();
+		//создаем врагов
 		startCreatingEnemy();
 	}
+	//цикл игры
 	function loop() {
-		var fps = 40;
+		//фпс игры 
+		var fps = 25;
 		if(isPlaying){
 		setTimeout(function() {
+			//запускаем цикл игры рекурсивно и вызываем функцию отрисовки и изменения
 			requestAnimationFrame(loop);
 			draw();
 			update();
@@ -169,6 +191,7 @@ $(document).ready(function(){
 	function sortObj(A,B) {
 		return B.score - A.score; 
 	}
+	//функция остановки цикла, выпадает при смерти статистика
 	function stopLoop() {
 		username = $('.user-info').text();
 		isPlaying = false;
@@ -179,37 +202,9 @@ $(document).ready(function(){
 		tr += '</tr>';
 		$('#tablea tr:last').after(tr);
 		$('.screen-ranking').show("slaw");
-/*		$.ajax({
-			type: "POST",
-			url:'../php/register.php',
-			data:'username='+username+'&score='+murder+'&time='+_sec,
-			success:function(data){
-				data = JSON.parse(data);
-				playedNumber = data.length-1;
-				playerNow = data[data.length-1];
-				data.sort(sortObj);
 
-				if(data.slice(0,11).indexOf(playerNow) == -1){
-					data = data.splice(10,data.length-1);
-				}
-				var tr;
-				for (var i = 0; i < data.length; i++) {
-					tr = '<tr>';
-					tr +="<td>" + ++i + "</td>";
-					tr +="<td>" + data[i].username + "</td>";
-					tr +="<td>" + data[i].score + "</td>";
-					tr +="<td>" + data[i].time + "</td>";
-					tr += '</tr>';
-					$('#tablea tr:last').after(tr);
-
-				}
-				$('.screen-ranking').show("slaw");
-			},
-			error:function(data){
-				console.log('error');
-			},
-		});*/
 	}
+	// Описание объекта Игрока
 	function Player() {
 		this.srcX = 0;//отступы
 		this.srcY = 260;
@@ -225,8 +220,9 @@ $(document).ready(function(){
 		this.death = false;
 		this.attack = false;
 		this.heIsAttac = false;
-		this.speed = 8;//скорость
+		this.speed = 5;//скорость
 	}
+	// Описание объекта Врага
 	function Enemy() {
 		this.srcX = 250+gameWidth;//отступы
 		this.srcY = 280;
@@ -241,6 +237,7 @@ $(document).ready(function(){
 		this.attack = false;
 		this.death = false;
 	}
+	//функция спавна героев(принимает кол-во)
 	function spawnEnemy(count){
 		for (var i = 0; i < count; i++) {
 			var randEnemy = nameEnemy[Math.floor(Math.random() * nameEnemy.length)];
@@ -251,6 +248,7 @@ $(document).ready(function(){
 			enemy[i].type = randEnemy;
 		}
 	}
+	//функция рисования игрока и врагов
 	function draw() {
 		player.draw();
 		clearCtxE();
@@ -258,6 +256,7 @@ $(document).ready(function(){
 			enemy[i].draw();
 		}
 	}
+	//функция изменения состояния врагов и игрока
 	function update() {
 		updateStats();
 		for (var i = 0; i < enemy.length; i++) {
@@ -271,6 +270,7 @@ $(document).ready(function(){
 
 		}
 		player.update();
+		//определям действия на нажатия кнопок
 		window.onkeyup = function (k) {
 			switch(k.which){
 				case 68:
@@ -291,6 +291,7 @@ $(document).ready(function(){
 				break;
 			}
 		}
+		//определям действия на нажатия кнопок
 		window.onkeypress = function (k) {
 			player.attack = false;
 			if(!player.death){
@@ -320,6 +321,7 @@ $(document).ready(function(){
 			}
 		}
 	}
+	// определяем как будет ходить игрок, а именно направо
 	Player.prototype.goRight = function () {
 		this.walk = true;
 		if(this.srcX> gameWidth-this.width){
@@ -330,6 +332,7 @@ $(document).ready(function(){
 		}
 		this.idle = false;
 	}
+	// определяем как будет атаковать игрок
 	Player.prototype.attack1 = function () {
 		
 		if(mana>=15) {
@@ -338,6 +341,7 @@ $(document).ready(function(){
 			this.idle = this.walk = false;
 		}
 	}
+	// определяем как будет ходить игрок, а именно налево
 	Player.prototype.goLeft = function () {
 		this.walk = true;
 		this.idle = false;
@@ -348,6 +352,7 @@ $(document).ready(function(){
 			this.srcX -=this.speed;
 		}
 	}
+	// отрисовка игрока
 	Player.prototype.draw = function () {
 		clearCtxP();
 		if(this.idle ){
@@ -360,15 +365,17 @@ $(document).ready(function(){
 		}
 		if(this.death){
 			this.idle = false;
-			x = x<19 ? x + 1 : 1;
-			ctxP.drawImage(death[x],this.srcX,this.srcY,this.width,this.height);
+			x = x<19 ? x + 0.5 : 1;
+			if(isInteger(x))
+				ctxP.drawImage(death[x],this.srcX,this.srcY,this.width,this.height);
+			
 			if(x==19) stopLoop();
 		}
 		if(this.attack){
 			this.heIsAttac = true;
 			x = x<25 ? x + 1 : 1;
 			//this.idle = false;
-			ctxP.drawImage(attack[x],this.srcX,this.srcY,this.width,this.height);
+				ctxP.drawImage(attack[x],this.srcX,this.srcY,this.width,this.height);
 	
 			if(x>24) {
 				this.heIsAttac = false;
@@ -378,6 +385,7 @@ $(document).ready(function(){
 			}
 		}
 	}
+	//изменения состояния игрока, а именно стрельба
 	Player.prototype.update = function () {
 			if(enemy[0] && this.attackFirts){
 				if((enemy[0].srcX + enemy[0].width>= + this.srcX + this.width) && this.attack && this.attackFirts){
@@ -388,6 +396,7 @@ $(document).ready(function(){
 				}
 		}
 	}
+	// отрисовка врага
 	Enemy.prototype.draw = function () {
 		//ctxE.setTransform(-1,0,0,1,enemyId.width,0);
 		if(this.run ){
@@ -428,6 +437,7 @@ $(document).ready(function(){
 			}
 		}
 	}
+	// изменения врага(а именно)
 	Enemy.prototype.update = function () {
 		for (var i = 0; i < enemy.length; i++) {
 		if(!enemy[i].attack){
@@ -448,15 +458,19 @@ $(document).ready(function(){
 		}
 	}
 	}
+	//уничтожает врага при его убийстве
 	Enemy.prototype.destroy = function(){
 		enemy.splice(enemy.indexOf(this),1);
 	}
+	//очищает наш холст игрока
 	function clearCtxP() {
 		ctxP.clearRect(0,0,gameWidth,gameHeight);
 	}
+	//очищает наш холст врага
 	function clearCtxE() {	
 		ctxE.clearRect(0,0,gameWidth,gameHeight);
 	}
+	//функция рандома
 	function getRandom(min, max)
 	{
 	  return Math.floor(Math.random() * (max - min + 1)) + min;

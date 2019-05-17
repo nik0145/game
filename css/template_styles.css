@@ -148,11 +148,11 @@ html, body {
 
 .little_banner {
 	height: 150px;
-	box-shadow: 3px 3px 8px #a3a4a4;
+/*	box-shadow: 3px 3px 8px #a3a4a4;
 	-moz-box-shadow: 3px 3px 8px #a3a4a4;
 	-webkit-box-shadow: 3px 3px 8px #a3a4a4;
 	-o-box-shadow: 3px 3px 8px #a3a4a4;
-    cursor: pointer;
+    cursor: pointer;*/
 	position: relative;
 	width: 100%;
 }
@@ -306,20 +306,20 @@ BLOCK_1
 .glitch_container::after {
 	background-repeat: no-repeat;
 	background-image: url('../image/scroll.png');
-	background-size: 30px 50px;
+	background-size: 51px 50px;
     content: '';
-    width: 30px;
+    width: 51px;
     height: 50px;
     display: block;
     position: absolute;
     top: 50%;
     margin-top: 100px;
-    left: 50%;
+    left: 49%;
     margin-left: -10px;
     z-index: 10;
 }
 .header_glitch {
-    color: #235fd0;
+    color: ##000;
     display: inline-block;
     font: 90px Logo;
     letter-spacing: .15em;
@@ -410,7 +410,7 @@ BLOCK_1
   left: 3px;
   text-shadow: 0 0 3px rgba(148, 19, 19, 0.41);
   top: 0;
-  color: #235fd0;
+  color: #000;
   background: transparent;
   overflow: hidden;
   clip: rect(0, 900px, 0, 0);
@@ -489,7 +489,7 @@ BLOCK_1
   left: -2px;
   text-shadow: 0 0 3px rgba(0, 0, 255, 0.6);
   top: 0;
-  color: #235fd0;
+  color: #000;
   background: transparent;
   overflow: hidden;
   clip: rect(0, 900px, 0, 0);

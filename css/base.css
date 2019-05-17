@@ -4,6 +4,21 @@
     box-sizing: border-box;
     -webkit-appearance: none;
 }
+/* прилепляем холст игрока к низу нашей картинки*/
+#playerCan{
+    margin:  auto 0px;
+    display: block;
+    position:absolute;
+   bottom:-6px;
+}
+/* прилепляем холст врага к низу нашей картинки*/
+#enemy{
+    margin: 0 auto 0px;
+    display: block;
+        position:absolute;
+   bottom:-6px;
+}
+/* Дальше идут просто css правила, в которых нет особых сложностей. Там просто подключаются шрифты настраивается высота и ширина и т.д.*/
 @font-face {
     font-family: SortsMillGoudy;
     src: url(../fonts/SortsMillGoudy-Regular.ttf);
@@ -156,16 +171,4 @@ button {
 }
 .show {
     z-index: 300;
-}
-#playerCan{
-    margin:  auto 0px;
-    display: block;
-}
-
-#enemy{
-    margin: -500px auto 0px;
-    display: block;
-}
-.space{
-    height: 7vh;
 }
