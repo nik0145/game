@@ -365,7 +365,7 @@ $(document).ready(function(){
 		}
 		if(this.death){
 			this.idle = false;
-			x = x<19 ? x + 0.5 : 1;
+			x = x<19 ? x + 1 : 1;
 			if(isInteger(x))
 				ctxP.drawImage(death[x],this.srcX,this.srcY,this.width,this.height);
 			
